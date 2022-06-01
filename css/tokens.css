@@ -1,0 +1,65 @@
+.markmirror {
+  --syntax-comment: #6e7781;
+  --syntax-constant: #0550ae;
+  --syntax-entity: #8250df;
+  --syntax-definition: #268bd2;
+  --syntax-tag: #116329;
+  --syntax-builtin: #b58900;
+  --syntax-keyword: #cf222e;
+  --syntax-string: #0a3069;
+  --syntax-string-regexp: #116329;
+  --syntax-variable: #953800;
+  --syntax-invalid-illegal-text: #f6f8fa;
+  --syntax-invalid-illegal-bg: #82071e;
+  --syntax-attention-bg: #fff8c5;
+}
+
+.cmt-meta {
+  opacity: 0.4;
+  font-family: var(--mm-f-mono);
+}
+.cmt-strong {
+  font-weight: bold;
+}
+.cmt-emphasis {
+  font-style: italic;
+}
+.cmt-link {
+  color: var(--mm-c-link);
+}
+.cmt-labelName {
+  font-family: var(--mm-f-mono);
+}
+
+.cmt-code {
+  color: var(--mm-c-code-text);
+  background-color: var(--mm-c-code-bg);
+  font-family: var(--mm-f-mono);
+}
+
+.cmt-meta + .cmt-code {
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: var(--mm-s-code-radius);
+}
+
+.cmb-heading,
+.cmb-m-heading {
+  font-weight: bold;
+}
+
+.cmb-heading .cmt-h1 {
+  font-size: 1.6em;
+}
+
+.cmb-heading .cmt-h2 {
+  font-size: 1.4em;
+}
+
+.cmb-heading .cmt-h3 {
+  font-size: 1.2em;
+}
+
+.cmb-heading .cmt-h4 {
+  font-size: 1.1em;
+}

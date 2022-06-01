@@ -1,0 +1,13 @@
+.markmirror {
+  --mm-f-sys: -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, "Droid Sans", "Helvetica Neue";
+  --mm-f-cjk: "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei";
+  --mm-f-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+  --mm-f-content: var(--mm-f-sys), var(--mm-f-cjk), sans-serif;
+
+  --mm-c-link: #26a6ed;
+
+  --mm-s-code-padding: 0.5rem;
+  --mm-s-code-radius: 4px;
+  --mm-c-code-bg: #f9f9f9;
+  --mm-c-code-text: #24292f;
+}

@@ -1,0 +1,20 @@
+
+.cm-editor .cmb-code {
+  color: var(--mm-c-code-text);
+  background-color: var(--mm-c-code-bg);
+  font-family: var(--mm-f-mono);
+  padding-left: var(--mm-s-code-padding);
+  padding-right: var(--mm-s-code-padding);
+}
+.cm-editor .cmb-code-open {
+  border-radius: var(--mm-s-code-radius) var(--mm-s-code-radius) 0 0;
+  padding-top: var(--mm-s-code-padding);
+}
+.cm-editor .cmb-code-close {
+  border-radius: 0 0 var(--mm-s-code-radius) var(--mm-s-code-radius);
+  padding-bottom: var(--mm-s-code-padding);
+}
+
+.cm-editor .cmb-quote {
+  background-color: var(--mm-c-code-bg);
+}
