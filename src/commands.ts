@@ -1,19 +1,8 @@
 import { ChangeSpec, EditorSelection, EditorState } from "@codemirror/state"
 import { EditorView, keymap } from "@codemirror/view"
-import { indentWithTab } from "@codemirror/commands"
+import { indentWithTab, indentMore, indentLess, historyKeymap } from "@codemirror/commands"
 import { SyntaxNode } from "@lezer/common"
 import { getSelectedNode, getSelectedNodes } from "./cursor"
-
-
-export const markdownKeymap = keymap.of([
-  indentWithTab,
-  { key: 'Mod-b', run: toggleBold },
-  { key: 'Mod-i', run: toggleItalic },
-  { key: 'Mod-d', run: toggleStrikethrough },
-  { key: 'Mod-`', run: toggleInlineCode },
-  { key: 'Mod-Enter', run: insertLinebreak },
-  { key: 'Mod-"', run: toggleBlockquote },
-])
 
 
 export function insertLinebreak (view: EditorView) {
@@ -58,9 +47,24 @@ export function toggleHeading (level: number) {
   }
 }
 
+export const toggleH1 = toggleHeading(1)
+export const toggleH2 = toggleHeading(2)
+export const toggleH3 = toggleHeading(3)
+export const toggleH4 = toggleHeading(4)
+export const toggleH5 = toggleHeading(5)
+export const toggleH6 = toggleHeading(6)
 
-export function toggleList (ordered: Boolean) {
+export function toggleOrderedList (view: EditorView) {
+  return true
+}
+
+export function toggleUnorderedList (view: EditorView) {
+  return true
+}
+
+export function toggleList (ordered: Boolean = false) {
   return (view: EditorView) => {
+    return true
   }
 }
 
@@ -93,7 +97,6 @@ export function toggleBlockcode (view: EditorView) {
   return true
 }
 
-
 function removeCodeBlock (state: EditorState, node: SyntaxNode) {
   const startLine = state.doc.lineAt(node.from)
   const endLine = state.doc.lineAt(node.to)
@@ -109,7 +112,6 @@ function removeCodeBlock (state: EditorState, node: SyntaxNode) {
 
   return { range: EditorSelection.range(startLine.from, to), changes }
 }
-
 
 function removeFencedCode (state: EditorState, node: SyntaxNode) {
   const startLine = state.doc.lineAt(node.from)
@@ -135,7 +137,6 @@ function removeFencedCode (state: EditorState, node: SyntaxNode) {
   ]
   return { range: EditorSelection.range(startLine.from, to), changes }
 }
-
 
 export function toggleBlockquote (view: EditorView) {
   const { state, dispatch } = view
@@ -175,51 +176,140 @@ export function toggleBlockquote (view: EditorView) {
   return true
 }
 
-export function toggleBold (view: EditorView) {
-  return toggleMarker(view, "StrongEmphasis", "**")
+export const toggleBold = toggleMarker("StrongEmphasis", "**")
+export const toggleItalic = toggleMarker("Emphasis", "*")
+export const toggleInlineCode = toggleMarker("InlineCode", "`")
+export const toggleStrikethrough = toggleMarker("Strikethrough", "~~")
+
+export function insertLink (view: EditorView, text: string, url: string, title?: string) {
+  return _insertLink(view, "[", text, url, title)
 }
 
-export function toggleItalic (view: EditorView) {
-  return toggleMarker(view, "Emphasis", "*")
+export function insertImage (view: EditorView, text: string, url: string, title?: string) {
+  return _insertLink(view, "![", text, url, title)
 }
 
-export function toggleInlineCode (view: EditorView) {
-  return toggleMarker(view, "InlineCode", "`")
-}
-
-export function toggleStrikethrough(view: EditorView) {
-  return toggleMarker(view, "Strikethrough", "~~")
-}
-
-export function toggleMarker (view: EditorView, type: string, marker: string) {
+function _insertLink (view: EditorView, marker: string, text: string, url: string, title?: string) {
   const { state, dispatch } = view
-  let userEvent = "input"
   const mutations = state.changeByRange(range => {
-    const changes: ChangeSpec[] = []
-    const node = getSelectedNode(state, range, type)
-    let from = range.from, to = range.to
-    if (node) {
-      from = node.from
-      to = node.to
-      if (node.firstChild) {
-        const prevMarker = node.firstChild
-        to = to - (prevMarker.to - prevMarker.from)
-        changes.push({ from: prevMarker.from, to: prevMarker.to })
-      }
-      if (node.lastChild) {
-        const lastMarker = node.lastChild
-        to = to - (lastMarker.to - lastMarker.from)
-        changes.push({ from: lastMarker.from, to: lastMarker.to })
-      }
-      userEvent = "delete"
+    let insert = `${marker}${text}](<${url}>`
+    if (title) {
+      insert += ' "' + title + '")'
     } else {
-      from += marker.length
-      to += marker.length
-      changes.push({ from: range.from, insert: marker })
-      changes.push({ from: range.to, insert: marker })
+      insert += ")"
     }
-    return { range: EditorSelection.range(from, to), changes }
+    const pos = range.from + insert.length
+    return {
+      range: EditorSelection.cursor(pos),
+      changes: [
+        { from: range.from, to: range.to, insert },
+      ],
+    }
   })
-  dispatch(mutations, { scrollIntoView: true, userEvent })
+  dispatch(mutations, { userEvent: "input" })
   return true
 }
+
+export const toggleLink = _toggleLink("Image", "[")
+export const toggleImage = _toggleLink("Image", "![")
+
+function _toggleLink (type: string, marker: string) {
+  return (view: EditorView) => {
+    const { state, dispatch } = view
+    const mutations = state.changeByRange(range => {
+      const node = getSelectedNode(state, range, type)
+      if (node) {
+        const leftMarker = node.firstChild
+        const rightMarker = leftMarker?.nextSibling
+        if (leftMarker && rightMarker) {
+          return {
+            range: EditorSelection.range(leftMarker.from, rightMarker.from - marker.length),
+            changes: [
+              { from: leftMarker.from, to: leftMarker.to },
+              { from: rightMarker.from, to: node.to },
+            ],
+          }
+        } else {
+          return { range }
+        }
+      }
+      if (range.from === range.to) {
+        return {
+          range: EditorSelection.range(range.from + marker.length, range.from + marker.length),
+          changes: [ { from: range.from, insert: marker + '](<url>)' }],
+        }
+      } else {
+        return {
+          range: EditorSelection.range(range.to + 3 + marker.length, range.to + 6 + marker.length),
+          changes: [
+            { from: range.from, insert: marker },
+            { from: range.to, insert: '](<url>)' },
+          ],
+        }
+      }
+    })
+    dispatch(mutations, { userEvent: "input" })
+    return true
+  }
+}
+
+export function toggleMarker (type: string, marker: string) {
+  return (view: EditorView) => {
+    const { state, dispatch } = view
+    let userEvent = "input"
+    const mutations = state.changeByRange(range => {
+      const changes: ChangeSpec[] = []
+      const node = getSelectedNode(state, range, type)
+      let from = range.from, to = range.to
+      if (node) {
+        from = node.from
+        to = node.to
+        if (node.firstChild) {
+          const prevMarker = node.firstChild
+          to = to - (prevMarker.to - prevMarker.from)
+          changes.push({ from: prevMarker.from, to: prevMarker.to })
+        }
+        if (node.lastChild) {
+          const lastMarker = node.lastChild
+          to = to - (lastMarker.to - lastMarker.from)
+          changes.push({ from: lastMarker.from, to: lastMarker.to })
+        }
+        userEvent = "delete"
+      } else {
+        from += marker.length
+        to += marker.length
+        changes.push({ from: range.from, insert: marker })
+        changes.push({ from: range.to, insert: marker })
+      }
+      return { range: EditorSelection.range(from, to), changes }
+    })
+    dispatch(mutations, { scrollIntoView: true, userEvent })
+    return true
+  }
+}
+
+// Keyboard shortcuts
+// Keymap borrowed from https://wordpress.org/support/article/keyboard-shortcuts/
+export const markdownKeymap = keymap.of([
+  indentWithTab,
+  ...historyKeymap,
+  { key: 'Mod-]', run: indentMore },
+  { key: 'Mod-[', run: indentLess },
+  { key: 'Mod-b', run: toggleBold },
+  { key: 'Mod-i', run: toggleItalic },
+  { key: 'Mod-k', run: toggleLink },
+  { key: 'Mod-`', run: toggleInlineCode },
+  { key: 'Alt-Shift-m', mac: 'Alt-Mod-m', run: toggleImage },
+  { key: 'Alt-Shift-d', mac: 'Alt-Mod-d', run: toggleStrikethrough },
+  { key: 'Alt-Shift-q', mac: 'Alt-Mod-q', run: toggleBlockquote },
+  { key: 'Alt-Shift-`', mac: 'Alt-Mod-`', run: toggleBlockcode },
+  { key: 'Alt-Shift-o', mac: 'Alt-Mod-o', run: toggleOrderedList },
+  { key: 'Alt-Shift-u', mac: 'Alt-Mod-u', run: toggleUnorderedList },
+  { key: 'Alt-Shift-1', mac: 'Alt-Mod-1', run: toggleH1 },
+  { key: 'Alt-Shift-2', mac: 'Alt-Mod-2', run: toggleH2 },
+  { key: 'Alt-Shift-3', mac: 'Alt-Mod-3', run: toggleH3 },
+  { key: 'Alt-Shift-4', mac: 'Alt-Mod-4', run: toggleH4 },
+  { key: 'Alt-Shift-5', mac: 'Alt-Mod-5', run: toggleH5 },
+  { key: 'Alt-Shift-6', mac: 'Alt-Mod-6', run: toggleH6 },
+  { key: 'Shift-Enter', run: insertLinebreak },
+])

@@ -1,10 +1,12 @@
 import { EditorState, Extension } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 import { Language, LanguageDescription } from "@codemirror/language"
+import { history } from "@codemirror/commands"
 import { markdown } from '@codemirror/lang-markdown'
 import { MarkdownExtension } from "@lezer/markdown"
 import { markdownLanguage, codeLanguages } from "./markdown"
-import { blockElementPlugin } from './blocks'
+import { blockElements } from './blocks'
+import { markdownKeymap } from "./commands"
 import { styles } from './styles'
 
 interface MarkMirrorOptions {
@@ -39,15 +41,17 @@ export class MarkMirror {
         base: this.options.mdBase || markdownLanguage,
         extensions: this.options.mdExtensions,
         codeLanguages: this.options.codeLanguages || codeLanguages,
-        addKeymap: this.options.addKeymap,
       }),
-      blockElementPlugin,
+      blockElements,
       styles,
     ]
   }
 
   createState (doc: string) {
     const extensions = this.extensions
+    if (this.options.addKeymap !== false) {
+      extensions.push([history(), markdownKeymap])
+    }
     if (this.options.extensions) {
       extensions.push(this.options.extensions)
     }

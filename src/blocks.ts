@@ -58,7 +58,7 @@ function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
   return builder.finish()
 }
 
-export const blockElementPlugin = ViewPlugin.fromClass(class {
+export const blockElements = ViewPlugin.fromClass(class {
   decorations: RangeSet<Decoration>
 
   constructor (view: EditorView) {
