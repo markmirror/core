@@ -1,8 +1,8 @@
 import { EditorState, Extension } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 import { Language, LanguageDescription } from "@codemirror/language"
-import { MarkdownExtension } from "@lezer/markdown"
 import { markdown } from '@codemirror/lang-markdown'
+import { MarkdownExtension } from "@lezer/markdown"
 import { markdownLanguage, codeLanguages } from "./markdown"
 import { blockElementPlugin } from './blocks'
 import { styles } from './styles'

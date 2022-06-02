@@ -1,3 +1,4 @@
 {
-  "name": "@markmirror/core"
+  "name": "@markmirror/core",
+  "main": "./src/index.ts"
 }
