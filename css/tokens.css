@@ -16,7 +16,7 @@
 
 .cmt-meta {
   opacity: 0.4;
-  font-family: var(--mm-f-mono);
+  font-family: var(--mm-f-code);
 }
 .cmt-strong {
   font-weight: bold;
@@ -28,19 +28,13 @@
   color: var(--mm-c-link);
 }
 .cmt-labelName {
-  font-family: var(--mm-f-mono);
+  font-family: var(--mm-f-code);
 }
 
 .cmt-code {
   color: var(--mm-c-code-text);
   background-color: var(--mm-c-code-bg);
-  font-family: var(--mm-f-mono);
-}
-
-.cmt-meta + .cmt-code {
-  padding-left: 4px;
-  padding-right: 4px;
-  border-radius: var(--mm-s-code-radius);
+  font-family: var(--mm-f-code);
 }
 
 .cmb-heading,

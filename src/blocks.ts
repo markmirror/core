@@ -18,9 +18,9 @@ function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
   const builder = new RangeSetBuilder<Decoration>()
 
   const addRangeSet = (node: SyntaxNodeRef, className: string) => {
-    builder.add(node.from, node.from, getLineDecoration(className + '-open'))
-    const endLine = view.state.doc.lineAt(node.to)
     let line = view.state.doc.lineAt(node.from)
+    const endLine = view.state.doc.lineAt(node.to)
+    builder.add(line.from, line.from, getLineDecoration(className + '-open'))
     builder.add(line.from, line.from, getLineDecoration(className))
     while (line.number < endLine.number) {
       line = view.state.doc.line(line.number + 1)
