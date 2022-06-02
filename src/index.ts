@@ -1,6 +1,11 @@
 export { MarkMirror } from "./editor"
 export { codeLanguages } from "./markdown"
 export {
+  onSelectionSet,
+  getSelectedNode,
+  getSelectedNodes,
+} from "./cursor"
+export {
   markdownKeymap,
   toggleH1,
   toggleH2,

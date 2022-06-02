@@ -4,7 +4,7 @@ import { syntaxTree } from "@codemirror/language"
 import { SyntaxNode } from "@lezer/common"
 
 
-export function recordCursor (cb: (nodes: SyntaxNode[]) => void) {
+export function onSelectionSet (cb: (nodes: SyntaxNode[]) => void) {
   return EditorView.updateListener.of((update: ViewUpdate) => {
     if (update.selectionSet) {
       const range: SelectionRange = update.state.selection.ranges[0]
