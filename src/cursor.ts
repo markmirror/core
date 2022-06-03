@@ -1,14 +1,19 @@
 import { EditorView, ViewUpdate } from '@codemirror/view'
-import { EditorState, SelectionRange } from '@codemirror/state'
+import { EditorState } from '@codemirror/state'
 import { syntaxTree } from "@codemirror/language"
 import { SyntaxNode } from "@lezer/common"
 
+export interface SelectionRange {
+  from: number
+  to: number
+}
 
 export function onSelectionSet (cb: (nodes: SyntaxNode[]) => void) {
   return EditorView.updateListener.of((update: ViewUpdate) => {
     if (update.selectionSet) {
       const range: SelectionRange = update.state.selection.ranges[0]
       const nodes = getSelectedNodes(update.state, range)
+      console.log(nodes)
       cb(nodes)
     }
   })
@@ -21,18 +26,41 @@ export function getSelectedNodes (state: EditorState, range: SelectionRange): Sy
   let node: SyntaxNode | null
   node = syntaxTree(state).resolve(range.from)
 
+  let isBlock = false
   if (node.name === "Document") {
     const line = state.doc.lineAt(range.from)
-    node = node.enter(line.to, -1)
-    if (node) {
-      nodes.push(node)
+    if (line.to > line.from) {
+      node = syntaxTree(state).resolve(line.to - 1)
+      isBlock = true
     }
-    return nodes
+  }
+
+  if (range.from === range.to && /BulletList|OrderedList/.test(node.name)) {
+    const line = state.doc.lineAt(range.from)
+    if (line.to > line.from) {
+      node = syntaxTree(state).resolve(line.to - 1)
+      isBlock = true
+    }
+  }
+
+  if (node.name === "ListItem") {
+    // special case for task list items
+    const markerNode = node.firstChild
+    if (markerNode && markerNode.name === "ListMark") {
+      if (markerNode.nextSibling && markerNode.nextSibling.name === "Task") {
+        node = markerNode.nextSibling
+        isBlock = true
+      }
+    }
   }
 
   while (node && node.name !== "Document") {
-    if (node.from <= range.from && node.to >= range.to) {
+    if (isBlock && node.type.is("Block") && node.to >= range.to) {
       nodes.push(node)
+    } else {
+      if (node.from <= range.from && node.to >= range.to) {
+        nodes.push(node)
+      }
     }
     if (node.parent) {
       node = node.parent

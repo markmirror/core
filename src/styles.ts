@@ -24,6 +24,7 @@ const classHighlighter = tagHighlighter([
   { tag: t.labelName, class: "cmt-labelName" },
   { tag: t.inserted, class: "cmt-inserted" },
   { tag: t.deleted, class: "cmt-deleted" },
+  { tag: t.strikethrough, class: "cmt-strikethrough" },
   { tag: t.literal, class: "cmt-literal" },
   { tag: t.string, class: "cmt-string" },
   { tag: t.number, class: "cmt-number" },

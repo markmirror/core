@@ -5,28 +5,11 @@ export {
   getSelectedNode,
   getSelectedNodes,
 } from "./cursor"
-export {
-  markdownKeymap,
-  toggleH1,
-  toggleH2,
-  toggleH3,
-  toggleH4,
-  toggleH5,
-  toggleH6,
-  toggleHeading,
-  toggleBlockcode,
-  toggleBlockquote,
-  toggleList,
-  toggleOrderedList,
-  toggleUnorderedList,
-  toggleBold,
-  toggleItalic,
-  toggleInlineCode,
-  toggleStrikethrough,
-  toggleImage,
-  toggleLink,
-  toggleMarker,
-  insertLink,
-  insertImage,
-  insertLinebreak,
-} from "./commands"
+export { markdownKeymap } from "./commands"
+export * from "./commands/heading"
+export * from "./commands/blockquote"
+export * from "./commands/codeblock"
+export * from "./commands/lists"
+export * from "./commands/markers"
+export * from "./commands/links"
+export * from "./commands/extra"

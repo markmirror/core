@@ -14,6 +14,10 @@
   --syntax-attention-bg: #fff8c5;
 }
 
+.cmt-atom {
+  color: var(--syntax-builtin);
+}
+
 .cmt-meta {
   opacity: 0.4;
   font-family: var(--mm-f-code);

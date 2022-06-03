@@ -5,7 +5,7 @@ import { history } from "@codemirror/commands"
 import { markdown } from '@codemirror/lang-markdown'
 import { MarkdownExtension } from "@lezer/markdown"
 import { markdownLanguage, codeLanguages } from "./markdown"
-import { blockElements } from './blocks'
+import { blockElements, showTrailingWhitespace } from './elements'
 import { markdownKeymap } from "./commands"
 import { styles } from './styles'
 
@@ -43,6 +43,7 @@ export class MarkMirror {
         codeLanguages: this.options.codeLanguages || codeLanguages,
       }),
       blockElements,
+      showTrailingWhitespace,
       styles,
     ]
   }
