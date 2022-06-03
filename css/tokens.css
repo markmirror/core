@@ -1,17 +1,15 @@
 .markmirror {
   --syntax-comment: #6e7781;
   --syntax-constant: #0550ae;
-  --syntax-entity: #8250df;
-  --syntax-definition: #268bd2;
+  --syntax-entity: #268bd2;
+  --syntax-property: #8250df;
+  --syntax-definition: #24292f;
   --syntax-tag: #116329;
   --syntax-builtin: #b58900;
   --syntax-keyword: #cf222e;
   --syntax-string: #0a3069;
-  --syntax-string-regexp: #116329;
-  --syntax-variable: #953800;
-  --syntax-invalid-illegal-text: #f6f8fa;
-  --syntax-invalid-illegal-bg: #82071e;
-  --syntax-attention-bg: #fff8c5;
+  --syntax-regexp: #116329;
+  --syntax-variable: #a4480f;
 }
 
 .cmt-atom {
@@ -40,6 +38,9 @@
   background-color: var(--mm-c-code-bg);
   font-family: var(--mm-f-code);
 }
+.cmt-codeinfo {
+  opacity: 0.6;
+}
 
 .cmb-heading,
 .cmb-m-heading {
@@ -60,4 +61,33 @@
 
 .cmb-heading .cmt-h4 {
   font-size: 1.1em;
+}
+
+/** code highlight */
+.cmt-comment {
+  color: var(--syntax-comment);
+}
+.cmt-keyword {
+  color: var(--syntax-keyword);
+}
+.cmt-variableName {
+  color: var(--syntax-variable);
+}
+.cmt-className,
+.cmt-propertyName {
+  color: var(--syntax-property);
+}
+.cmt-definition {
+  color: var(--syntax-definition);
+}
+
+.cmt-string {
+  color: var(--syntax-string);
+}
+.cmt-bool,
+.cmt-number {
+  color: var(--syntax-constant);
+}
+.cmt-regexp {
+  color: var(--syntax-regexp);
 }

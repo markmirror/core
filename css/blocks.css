@@ -1,14 +1,3 @@
-@font-face {
-  font-family: dotspace;
-  /* TODO */
-  src: local(demo);
-  unicode-range: U+0020;
-}
-
-.cm-trailingWhitespace {
-  color: rgba(0, 0, 0, 0.1);
-}
-
 .cm-editor .cmb-code {
   color: var(--mm-c-code-text);
   background-color: var(--mm-c-code-bg);
