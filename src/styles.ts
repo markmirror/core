@@ -1,6 +1,7 @@
 import { EditorView } from '@codemirror/view'
 import { syntaxHighlighting } from "@codemirror/language"
 import { tagHighlighter, tags as t } from "@lezer/highlight"
+import { tags as t2 } from "./markdown"
 
 
 const themeStyle = EditorView.theme({
@@ -28,12 +29,13 @@ const classHighlighter = tagHighlighter([
   { tag: t.literal, class: "cmt-literal" },
   { tag: t.string, class: "cmt-string" },
   { tag: t.number, class: "cmt-number" },
-  { tag: [ t.regexp, t.escape, t.special(t.string) ], class: "cmt-string2" },
+  { tag: [ t.escape, t.special(t.string) ], class: "cmt-string2" },
+  { tag: t.regexp, class: "cmt-regexp" },
   { tag: t.variableName, class: "cmt-variableName" },
-  { tag: t.local(t.variableName), class: "cmt-variableName tok-local" },
-  { tag: t.definition(t.variableName), class: "cmt-variableName tok-definition" },
+  { tag: t.local(t.variableName), class: "cmt-variableName cmt-local" },
+  { tag: t.definition(t.variableName), class: "cmt-variableName cmt-definition" },
   { tag: t.special(t.variableName), class: "cmt-variableName2" },
-  { tag: t.definition(t.propertyName), class: "cmt-propertyName tok-definition" },
+  { tag: t.definition(t.propertyName), class: "cmt-propertyName cmt-definition" },
   { tag: t.typeName, class: "cmt-typeName" },
   { tag: t.namespace, class: "cmt-namespace" },
   { tag: t.className, class: "cmt-className" },
@@ -51,6 +53,8 @@ const classHighlighter = tagHighlighter([
   { tag: t.heading5, class: "cmt-h5" },
   { tag: t.heading6, class: "cmt-h6" },
   { tag: t.monospace, class: "cmt-code" },
+  { tag: t2.codeinfo, class: "cmt-codeinfo" },
+  { tag: t2.hardbreak, class: "cmt-hardbreak" },
 ])
 
 

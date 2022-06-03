@@ -4,8 +4,8 @@ import { Language, LanguageDescription } from "@codemirror/language"
 import { history } from "@codemirror/commands"
 import { markdown } from '@codemirror/lang-markdown'
 import { MarkdownExtension } from "@lezer/markdown"
-import { markdownLanguage, codeLanguages } from "./markdown"
-import { blockElements, showTrailingWhitespace } from './elements'
+import { markdownLanguage, codeLanguages, markdownHighlight } from "./markdown"
+import { blockElements } from './elements'
 import { markdownKeymap } from "./commands"
 import { styles } from './styles'
 
@@ -34,16 +34,19 @@ export class MarkMirror {
 
   // default extensions
   get extensions () {
+    const mdExtensions: MarkdownExtension[] = [ markdownHighlight ]
+    if (this.options.mdExtensions) {
+      mdExtensions.push(this.options.mdExtensions)
+    }
     return [
       EditorView.lineWrapping,
       EditorView.contentAttributes.of({ spellcheck: 'true' }),
       markdown({
         base: this.options.mdBase || markdownLanguage,
-        extensions: this.options.mdExtensions,
+        extensions: mdExtensions,
         codeLanguages: this.options.codeLanguages || codeLanguages,
       }),
       blockElements,
-      showTrailingWhitespace,
       styles,
     ]
   }

@@ -73,26 +73,3 @@ export const blockElements = ViewPlugin.fromClass(class {
 }, {
   decorations: v => v.decorations,
 })
-
-
-const trailingWhitespaceDecorator = new MatchDecorator({
-  regexp: /\s+$/g,
-  boundary: /\S/,
-  decoration: Decoration.mark({class: 'cm-trailingWhitespace'}),
-})
-
-export const showTrailingWhitespace = ViewPlugin.fromClass(class {
-  decorations: RangeSet<Decoration>
-
-  constructor (view: EditorView) {
-    this.decorations = trailingWhitespaceDecorator.createDeco(view)
-  }
-
-  update (update: ViewUpdate) {
-    if (update.docChanged) {
-      this.decorations = trailingWhitespaceDecorator.updateDeco(update, this.decorations)
-    }
-  }
-}, {
-  decorations: v => v.decorations,
-})
