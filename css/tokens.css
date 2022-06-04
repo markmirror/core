@@ -73,7 +73,12 @@
 .cmt-variableName {
   color: var(--syntax-variable);
 }
-.cmt-className,
+.cmt-typeName {
+  color: var(--syntax-tag);
+}
+.cmt-className {
+  color: var(--syntax-entity);
+}
 .cmt-propertyName {
   color: var(--syntax-property);
 }

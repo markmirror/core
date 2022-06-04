@@ -2,7 +2,6 @@ import { ChangeSpec, EditorSelection } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 import { getSelectedNode } from "../cursor"
 
-
 export function toggleMarker (type: string, marker: string) {
   return (view: EditorView) => {
     const { state, dispatch } = view

@@ -1,9 +1,9 @@
-import { Decoration, MatchDecorator, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
+import { Decoration, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
 import { RangeSet, RangeSetBuilder } from '@codemirror/state'
 import { syntaxTree } from "@codemirror/language"
 import { SyntaxNodeRef } from "@lezer/common"
 
-const _cacheDecorations: {[key: string]: Decoration } = {}
+const _cacheDecorations: { [key: string]: Decoration } = {}
 
 function getLineDecoration (name: string, attrs = {}) {
   let deco = _cacheDecorations[name]

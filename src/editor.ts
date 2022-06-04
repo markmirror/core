@@ -21,11 +21,9 @@ interface MarkMirrorOptions {
 export const localHistory = [ history(), historyKeymap ]
 
 export class MarkMirror {
-  private view?: EditorView
+  public view?: EditorView
 
-  constructor (private options: MarkMirrorOptions = {}) {
-    this.options = options
-  }
+  constructor (public options: MarkMirrorOptions = {}) {}
 
   get state () : EditorState | null {
     if (this.view) {
@@ -54,8 +52,19 @@ export class MarkMirror {
     ]
   }
 
-  createState (doc: string) {
-    const extensions = this.extensions
+  addExtension (extension: Extension) {
+    if (!this.options.extensions) {
+      this.options.extensions = []
+    }
+    this.options.extensions.push(extension)
+  }
+
+  createState (doc: string, extensions?: Extension[]) {
+    if (!extensions) {
+      extensions = this.extensions
+    } else {
+      extensions = [ ...this.extensions, ...extensions ]
+    }
     if (this.options.addKeymap !== false) {
       extensions.push(markdownKeymap)
     }
@@ -65,9 +74,9 @@ export class MarkMirror {
     return EditorState.create({ doc, extensions })
   }
 
-  render (element: HTMLElement, content: string = '') {
-    let doc = content, parent = element
-    if (!content && element instanceof HTMLTextAreaElement) {
+  render (element: HTMLElement, options: { extensions?: Extension[], content?: string } = {}) {
+    let doc = options.content || '', parent = element
+    if (!options.content && element instanceof HTMLTextAreaElement) {
       doc = element.value
     }
     if (element instanceof HTMLTextAreaElement) {
@@ -77,7 +86,7 @@ export class MarkMirror {
       element.parentNode?.replaceChild(parent, element)
     }
     parent.classList.add('markmirror')
-    const state = this.createState(doc)
+    const state = this.createState(doc, options.extensions)
     this.view = new EditorView({ state, parent })
   }
 
