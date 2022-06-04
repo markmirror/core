@@ -1,15 +1,38 @@
 .markmirror {
+  --syntax-text: #24292f;
+  --syntax-background: #f9f9f9;
   --syntax-comment: #6e7781;
   --syntax-constant: #0550ae;
   --syntax-entity: #268bd2;
   --syntax-property: #8250df;
   --syntax-definition: #24292f;
-  --syntax-tag: #116329;
+  --syntax-tag: #085;
   --syntax-builtin: #b58900;
   --syntax-keyword: #cf222e;
   --syntax-string: #0a3069;
-  --syntax-regexp: #116329;
+  --syntax-regexp: #e40;
   --syntax-variable: #a4480f;
+}
+
+.darkcode .cmb-code {
+  --syntax-text: #c9d1d9;
+  --syntax-background: #292d3e;
+  --syntax-comment: #8b949e;
+  --syntax-constant: #79c0ff;
+  --syntax-entity: #47b0fa;
+  --syntax-property: #d2a8ff;
+  --syntax-definition: #c9d1d9;
+  --syntax-tag: #7ee787;
+  --syntax-builtin: #ffd34c;
+  --syntax-keyword: #ff7b72;
+  --syntax-string: #a5d6ff;
+  --syntax-regexp: #ef954e;
+  --syntax-variable: #ffa657;
+}
+
+.cmb-code {
+  color: var(--syntax-text);
+  background-color: var(--syntax-background);
 }
 
 .cmt-atom {
@@ -34,8 +57,6 @@
 }
 
 .cmt-code {
-  color: var(--mm-c-code-text);
-  background-color: var(--mm-c-code-bg);
   font-family: var(--mm-f-code);
 }
 .cmt-codeinfo {
@@ -70,9 +91,6 @@
 .cmt-keyword {
   color: var(--syntax-keyword);
 }
-.cmt-variableName {
-  color: var(--syntax-variable);
-}
 .cmt-typeName {
   color: var(--syntax-tag);
 }
@@ -85,7 +103,6 @@
 .cmt-definition {
   color: var(--syntax-definition);
 }
-
 .cmt-string {
   color: var(--syntax-string);
 }

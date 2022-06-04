@@ -1,6 +1,4 @@
 .cm-editor .cmb-code {
-  color: var(--mm-c-code-text);
-  background-color: var(--mm-c-code-bg);
   font-family: var(--mm-f-code);
   padding-left: var(--mm-s-code-padding);
   padding-right: var(--mm-s-code-padding);
@@ -11,7 +9,8 @@
 }
 .cm-editor .cmb-code-close {
   border-radius: 0 0 var(--mm-s-code-radius) var(--mm-s-code-radius);
-  padding-bottom: var(--mm-s-code-padding);
+  padding-top: calc(var(--mm-s-code-padding) / 2);
+  padding-bottom: calc(var(--mm-s-code-padding) / 2);
 }
 
 .cm-editor .cmb-quote {
