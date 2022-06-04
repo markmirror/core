@@ -3,7 +3,7 @@ import { EditorView } from "@codemirror/view"
 import { getSelectedNode } from "../cursor"
 
 
-export function toggleBulletList (view: EditorView) {
+export function toggleBulletList (view: EditorView) : boolean {
   const { state, dispatch } = view
   let userEvent = 'input'
   let dedent = false
@@ -61,7 +61,7 @@ export function toggleBulletList (view: EditorView) {
   return true
 }
 
-export function toggleOrderedList (view: EditorView) {
+export function toggleOrderedList (view: EditorView) : boolean {
   const { state, dispatch } = view
   let userEvent = 'input'
   let dedent = false
@@ -115,18 +115,6 @@ export function toggleOrderedList (view: EditorView) {
     dedent = dedent2
 
     return { range: EditorSelection.range(crange.from, crange.to), changes }
-  })
-  dispatch(mutations, { userEvent })
-  return true
-}
-
-
-export function toggleTaskList (view: EditorView) {
-  const { state, dispatch } = view
-  let userEvent = 'input'
-  const mutations = state.changeByRange(range => {
-    // TODO
-    return { range }
   })
   dispatch(mutations, { userEvent })
   return true

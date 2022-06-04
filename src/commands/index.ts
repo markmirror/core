@@ -1,6 +1,6 @@
 import { keymap } from "@codemirror/view"
 import { indentWithTab, indentMore, indentLess } from "@codemirror/commands"
-import { insertLinebreak  } from "./extra"
+import { insertLinebreak, toggleHorizontalRule } from "./extra"
 import {
   toggleBold,
   toggleItalic,
@@ -24,7 +24,7 @@ import { toggleBlockquote } from "./blockquote"
 import { toggleOrderedList, toggleBulletList } from "./lists"
 
 // Keyboard shortcuts
-// Keymap borrowed from https://wordpress.org/support/article/keyboard-shortcuts/
+// Keymap inspired by https://wordpress.org/support/article/keyboard-shortcuts/
 export const markdownKeymap = keymap.of([
   indentWithTab,
   { key: 'Mod-]', run: indentMore },
@@ -32,11 +32,11 @@ export const markdownKeymap = keymap.of([
   { key: 'Mod-b', run: toggleBold },
   { key: 'Mod-i', run: toggleItalic },
   { key: 'Mod-k', run: toggleLink },
-  { key: 'Mod-`', run: toggleInlineCode },
+  { key: 'Mod-e', run: toggleInlineCode },
   { key: 'Alt-Shift-m', mac: 'Alt-Mod-m', run: toggleImage },
-  { key: 'Alt-Shift-d', mac: 'Alt-Mod-d', run: toggleStrikethrough },
+  { key: 'Alt-Shift-x', mac: 'Alt-Mod-x', run: toggleStrikethrough },
   { key: 'Alt-Shift-q', mac: 'Alt-Mod-q', run: toggleBlockquote },
-  { key: 'Alt-Shift-`', mac: 'Alt-Mod-`', run: toggleBlockcode },
+  { key: 'Alt-Shift-c', mac: 'Alt-Mod-c', run: toggleBlockcode },
   { key: 'Alt-Shift-o', mac: 'Alt-Mod-o', run: toggleOrderedList },
   { key: 'Alt-Shift-u', mac: 'Alt-Mod-u', run: toggleBulletList },
   { key: 'Alt-Shift-1', mac: 'Alt-Mod-1', run: toggleH1 },
@@ -45,5 +45,6 @@ export const markdownKeymap = keymap.of([
   { key: 'Alt-Shift-4', mac: 'Alt-Mod-4', run: toggleH4 },
   { key: 'Alt-Shift-5', mac: 'Alt-Mod-5', run: toggleH5 },
   { key: 'Alt-Shift-6', mac: 'Alt-Mod-6', run: toggleH6 },
+  { key: 'Alt-Shift-Enter', mac: 'Alt-Mod-Enter', run: toggleHorizontalRule },
   { key: 'Shift-Enter', run: insertLinebreak },
 ])
