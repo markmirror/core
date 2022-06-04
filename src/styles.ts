@@ -9,9 +9,6 @@ const themeStyle = EditorView.theme({
     caretColor: "var(--mm-c-caret)",
     fontFamily: "var(--mm-f-content)",
   },
-  ".cm-scroller": {
-    overflow: "auto",
-  },
 })
 
 const classHighlighter = tagHighlighter([
