@@ -13,7 +13,6 @@ export function onSelectionSet (cb: (nodes: SyntaxNode[]) => void) {
     if (update.selectionSet) {
       const range: SelectionRange = update.state.selection.ranges[0]
       const nodes = getSelectedNodes(update.state, range)
-      console.log(nodes)
       cb(nodes)
     }
   })

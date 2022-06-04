@@ -12,3 +12,9 @@ export function insertLinebreak (view: EditorView) {
   dispatch(mutations, { userEvent: 'input' })
   return true
 }
+
+
+export function insertText (view: EditorView, text: string) {
+  const mutations = view.state.replaceSelection(text)
+  view.dispatch(mutations, { userEvent: 'input' })
+}
