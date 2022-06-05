@@ -10,7 +10,6 @@
   --mm-f-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
   --mm-f-code: var(--mm-f-mono), monospace;
   --mm-f-content: var(--mm-f-mono), var(--mm-f-cjk), monospace;
-  --mm-f-content: mmspace, var(--mm-f-sys), var(--mm-f-cjk), sans-serif;
 
   --mm-c-caret: black;
   --mm-c-link: #26a6ed;

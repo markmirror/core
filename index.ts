@@ -1,3 +1,5 @@
+import "./css/index.css"
+
 export { MarkMirror, localHistory } from "./src/editor"
 export { codeLanguages } from "./src/markdown"
 export {
