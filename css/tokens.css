@@ -1,6 +1,5 @@
 .markmirror {
-  --syntax-text: #24292f;
-  --syntax-background: #f9f9f9;
+  --syntax-meta: #c9d1d9;
   --syntax-comment: #6e7781;
   --syntax-constant: #0550ae;
   --syntax-entity: #268bd2;
@@ -15,8 +14,7 @@
 }
 
 .darkcode .cmb-code {
-  --syntax-text: #c9d1d9;
-  --syntax-background: #292d3e;
+  --syntax-meta: #6e7781;
   --syntax-comment: #8b949e;
   --syntax-constant: #79c0ff;
   --syntax-entity: #47b0fa;
@@ -30,19 +28,22 @@
   --syntax-variable: #ffa657;
 }
 
-.cmb-code {
-  color: var(--syntax-text);
-  background-color: var(--syntax-background);
-}
-
 .cmt-atom {
   color: var(--syntax-builtin);
 }
 
 .cmt-meta {
-  opacity: 0.4;
+  color: var(--syntax-meta);
   font-family: var(--mm-f-code);
 }
+
+.cmt-hardbreak::after {
+  font-family: var(--mm-f-code);
+  pointer-events: none;
+  content: '¬';
+  opacity: 0.2;
+}
+
 .cmt-strong {
   font-weight: bold;
 }
@@ -60,7 +61,7 @@
   font-family: var(--mm-f-code);
 }
 .cmt-codeinfo {
-  opacity: 0.6;
+  color: var(--syntax-meta);
 }
 
 .cmb-heading,
