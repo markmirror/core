@@ -1,5 +1,5 @@
+import { EditorView, keymap } from "@codemirror/view"
 import { EditorState, Extension } from "@codemirror/state"
-import { EditorView } from "@codemirror/view"
 import { Language, LanguageDescription } from "@codemirror/language"
 import { history } from "@codemirror/commands"
 import { markdown } from '@codemirror/lang-markdown'
@@ -18,7 +18,7 @@ interface MarkMirrorOptions {
   codeLanguages?: readonly LanguageDescription[],
 }
 
-export const localHistory = [ history(), historyKeymap ]
+export const localHistory = [ history(), keymap.of(historyKeymap) ]
 
 export class MarkMirror {
   public view?: EditorView
