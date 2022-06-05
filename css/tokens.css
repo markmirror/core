@@ -28,16 +28,6 @@
   --syntax-variable: #ffa657;
 }
 
-.cmt-atom {
-  color: var(--syntax-builtin);
-  font-family: var(--mm-f-code);
-}
-
-.cmt-meta {
-  color: var(--syntax-meta);
-  font-family: var(--mm-f-code);
-}
-
 .cmt-hardbreak::after {
   font-family: var(--mm-f-code);
   pointer-events: none;
@@ -68,6 +58,16 @@
 }
 .cmt-codeinfo {
   color: var(--syntax-meta);
+}
+
+.cmt-atom {
+  color: var(--syntax-builtin);
+  font-family: var(--mm-f-code);
+}
+
+.cmt-meta {
+  color: var(--syntax-meta);
+  font-family: var(--mm-f-code);
 }
 
 .cmb-heading,
