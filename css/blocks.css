@@ -16,14 +16,42 @@
 }
 
 .cm-editor .cmb-quote {
-  color: var(--mm-c-quote-text);
-  background-color: var(--mm-c-quote-background);
-  padding-left: var(--mm-s-quote-padding);
-  padding-right: var(--mm-s-quote-padding);
+  color: var(--mm-c-block-text);
+  background-color: var(--mm-c-block-background);
+  padding-left: var(--mm-s-block-padding);
+  padding-right: var(--mm-s-block-padding);
 }
+
 .cm-editor .cmb-quote-open {
-  padding-top: var(--mm-s-quote-padding);
+  position: relative;
+  padding-top: var(--mm-s-block-padding);
 }
+
+.cm-editor .cmb-quote-open:after {
+  position: absolute;
+  content: "\201d";
+  font-size: 2em;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  line-height: 1em;
+  top: 2px;
+  right: 2px;
+  color: var(--mm-c-quote-mark);
+}
+
 .cm-editor .cmb-quote-close {
-  padding-bottom: var(--mm-s-quote-padding);
+  padding-bottom: var(--mm-s-block-padding);
+}
+
+.cm-editor .cmb-table {
+  font-family: var(--mm-f-code);
+  color: var(--mm-c-block-text);
+  background-color: var(--mm-c-block-background);
+  padding-left: calc(var(--mm-s-block-padding) * 2);
+  padding-right: calc(var(--mm-s-block-padding) * 2);
+}
+.cm-editor .cmb-table-open {
+  padding-top: var(--mm-s-block-padding);
+}
+.cm-editor .cmb-table-close {
+  padding-bottom: var(--mm-s-block-padding);
 }

@@ -8,7 +8,11 @@ const _cacheDecorations: { [key: string]: Decoration } = {}
 function getLineDecoration (name: string, attrs = {}) {
   let deco = _cacheDecorations[name]
   if (!deco) {
-    deco = Decoration.line({ attributes: { class: name, ...attrs } })
+    let className = name
+    if (/-(open|close)$/.test(name)) {
+      className = name.replace(/-(open|close)$/, ' ') + name
+    }
+    deco = Decoration.line({ attributes: { class: className, ...attrs } })
     _cacheDecorations[name] = deco
   }
   return deco
@@ -20,13 +24,12 @@ function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
   const addRangeSet = (node: SyntaxNodeRef, className: string, attrs = {}) => {
     let line = view.state.doc.lineAt(node.from)
     const endLine = view.state.doc.lineAt(node.to)
-    builder.add(line.from, line.from, getLineDecoration(className + '-open'))
-    builder.add(line.from, line.from, getLineDecoration(className, attrs))
-    while (line.number < endLine.number) {
+    builder.add(line.from, line.from, getLineDecoration(className + '-open', attrs))
+    while (line.number < endLine.number - 1) {
       line = view.state.doc.line(line.number + 1)
       builder.add(line.from, line.from, getLineDecoration(className, attrs))
     }
-    builder.add(endLine.from, endLine.from, getLineDecoration(className + '-close'))
+    builder.add(endLine.from, endLine.from, getLineDecoration(className + '-close', attrs))
   }
 
   for (let {from, to} of view.visibleRanges) {
@@ -50,6 +53,8 @@ function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
           builder.add(node.from, node.from, getLineDecoration('cmb-heading'))
         } else if (/SetextHeading/.test(node.name)) {
           addRangeSet(node, 'cmb-m-heading')
+        } else if (node.name === "Table") {
+          addRangeSet(node, 'cmb-table')
         }
         return false
       }

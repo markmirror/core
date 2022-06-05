@@ -9,19 +9,22 @@
   --mm-f-cjk: "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei";
   --mm-f-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
   --mm-f-code: var(--mm-f-mono), monospace;
-  --mm-f-content: var(--mm-f-mono), var(--mm-f-cjk), monospace;
+  --mm-f-content: var(--mm-f-sys), var(--mm-f-cjk), monospace;
 
   --mm-c-caret: black;
   --mm-c-link: #26a6ed;
+  --mm-c-mark: #faf594;
 
-  --mm-s-code-padding: 0.5rem;
-  --mm-s-code-radius: 4px;
-  --mm-c-code-text: #24292f;
-  --mm-c-code-background: #f9f9f9;
+  --mm-s-block-padding: 0.5rem;
+  --mm-c-block-text: #24292f;
+  --mm-c-block-background: #f0f0f0;
 
-  --mm-s-quote-padding: 0.5rem;
-  --mm-c-quote-text: #24292f;
-  --mm-c-quote-background: #f0f0f0;
+  --mm-c-quote-mark: #d4d4d4;
+
+  --mm-s-code-padding: var(--mm-s-block-padding);
+  --mm-s-code-radius: 6px;
+  --mm-c-code-text: var(--mm-c-block-text);
+  --mm-c-code-background: var(--mm-c-block-background);
 }
 
 .darkcode {

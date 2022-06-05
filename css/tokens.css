@@ -1,5 +1,5 @@
 .markmirror {
-  --syntax-meta: #c9d1d9;
+  --syntax-meta: #d4d4d4;
   --syntax-comment: #6e7781;
   --syntax-constant: #0550ae;
   --syntax-entity: #268bd2;
@@ -30,6 +30,7 @@
 
 .cmt-atom {
   color: var(--syntax-builtin);
+  font-family: var(--mm-f-code);
 }
 
 .cmt-meta {
@@ -58,7 +59,12 @@
 }
 
 .cmt-code {
+  font-weight: bold;
   font-family: var(--mm-f-code);
+  background-color: var(--mm-c-mark);
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 4px;
 }
 .cmt-codeinfo {
   color: var(--syntax-meta);
