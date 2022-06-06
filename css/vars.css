@@ -1,9 +1,3 @@
-@font-face {
-  font-family: mmspace;
-  src: local(Menlo), local(Monaco), local(Consolas), local("Courier New");
-  unicode-range: U+0020;
-}
-
 .markmirror {
   --mm-f-sys: -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, "Droid Sans", "Helvetica Neue";
   --mm-f-cjk: "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei";
