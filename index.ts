@@ -4,10 +4,11 @@ export { MarkMirror, localHistory } from "./src/editor"
 export { codeLanguages } from "./src/markdown"
 export {
   onSelectionSet,
+  onDocChange,
   getSelectedNode,
   getSelectedNodes,
 } from "./src/cursor"
-export { markdownKeymap } from "./src/commands"
+export * from "./src/commands"
 export * from "./src/commands/heading"
 export * from "./src/commands/blockquote"
 export * from "./src/commands/codeblock"

@@ -1,5 +1,6 @@
-import { keymap } from "@codemirror/view"
-import { indentMore, indentLess } from "@codemirror/commands"
+import { keymap, Command } from "@codemirror/view"
+import { StateCommand } from "@codemirror/state"
+import { indentMore, indentLess, undo, redo } from "@codemirror/commands"
 import { insertLinebreak, toggleHorizontalRule } from "./extra"
 import {
   toggleBold,
@@ -47,3 +48,49 @@ export const markdownKeymap = keymap.of([
   { key: 'Alt-Shift-Enter', mac: 'Alt-Mod-Enter', run: toggleHorizontalRule },
   { key: 'Shift-Enter', run: insertLinebreak },
 ])
+
+
+export const markdownActionMap : {[key: string]: Command | StateCommand} = {
+  'undo': undo,
+  'redo': redo,
+  'bold': toggleBold,
+  'italic': toggleItalic,
+  'codespan': toggleInlineCode,
+  'link': toggleLink,
+  'image': toggleImage,
+  'strikethrough': toggleStrikethrough,
+  'codeblock': toggleBlockcode,
+  'blockquote': toggleBlockquote,
+  'br': insertLinebreak,
+  'ul': toggleBulletList,
+  'ol': toggleOrderedList,
+  'hr': toggleHorizontalRule,
+  'h1': toggleH1,
+  'h2': toggleH2,
+  'h3': toggleH3,
+  'h4': toggleH4,
+  'h5': toggleH5,
+  'h6': toggleH6,
+}
+
+
+export const markdownNodeMenus : {[key: string]: string} = {
+  "StrongEmphasis": "bold",
+  "Emphasis": "italic",
+  "InlineCode": "codespan",
+  "Link": "link",
+  "Image": "image",
+  "Strikethrough": "strikethrough",
+  "FencedCode": "codeblock",
+  "CodeBlock": "codeblock",
+  "Blockquote": "blockquote",
+  "BulletList": "ul",
+  "OrderedList": "ol",
+  "HorizontalRule": "hr",
+  "ATXHeading1": "h1",
+  "ATXHeading2": "h2",
+  "ATXHeading3": "h3",
+  "ATXHeading4": "h4",
+  "ATXHeading5": "h5",
+  "ATXHeading6": "h6",
+}

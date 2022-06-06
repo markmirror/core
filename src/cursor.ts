@@ -8,6 +8,14 @@ export interface SelectionRange {
   to: number
 }
 
+export function onDocChange (cb: (content: string) => void) {
+  return EditorView.updateListener.of((update: ViewUpdate) => {
+    if (update.docChanged) {
+      cb(update.state.doc.toString())
+    }
+  })
+}
+
 export function onSelectionSet (cb: (nodes: SyntaxNode[]) => void) {
   return EditorView.updateListener.of((update: ViewUpdate) => {
     if (update.selectionSet) {
