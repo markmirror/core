@@ -1,4 +1,4 @@
-import { EditorView } from "@codemirror/view"
+import { EditorView, ViewUpdate } from "@codemirror/view"
 import { EditorState, Extension } from "@codemirror/state"
 import { markdown } from '@codemirror/lang-markdown'
 import { MarkdownExtension } from "@lezer/markdown"
@@ -81,4 +81,12 @@ export class MarkMirror {
       this.view.destroy()
     }
   }
+}
+
+export function onDocChange (cb: (content: string) => void) {
+  return EditorView.updateListener.of((update: ViewUpdate) => {
+    if (update.docChanged) {
+      cb(update.state.doc.toString())
+    }
+  })
 }

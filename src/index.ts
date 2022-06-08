@@ -1,8 +1,2 @@
-export { MarkMirror } from "./editor"
+export { MarkMirror, onDocChange } from "./editor"
 export { codeLanguages } from "./markdown"
-export {
-  onSelectionSet,
-  onDocChange,
-  getSelectedNode,
-  getSelectedNodes,
-} from "./cursor"
