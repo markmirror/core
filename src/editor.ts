@@ -29,6 +29,7 @@ export class MarkMirror {
       mdExtensions.push(this.options.mdExtensions)
     }
     return [
+      EditorView.lineWrapping,
       markdown({
         base: this.options.mdBase || markdownLanguage,
         extensions: mdExtensions,
