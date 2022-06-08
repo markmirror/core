@@ -63,18 +63,10 @@ function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
   return builder.finish()
 }
 
-export const blockElements = ViewPlugin.fromClass(class {
-  decorations: RangeSet<Decoration>
-
-  constructor (view: EditorView) {
-    this.decorations = buildBlockDecoration(view)
-  }
-
-  update (update: ViewUpdate) {
-    if (update.docChanged) {
-      this.decorations = buildBlockDecoration(update.view)
+export const blockElements = ViewPlugin.define((view: EditorView) => {
+  return {
+    update: () => {
+      return buildBlockDecoration(view)
     }
   }
-}, {
-  decorations: v => v.decorations,
-})
+}, { decorations: (plugin) => plugin.update() })
