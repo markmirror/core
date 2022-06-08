@@ -38,12 +38,20 @@
 .cmt-strong {
   font-weight: bold;
 }
+
 .cmt-emphasis {
   font-style: italic;
 }
+
 .cmt-link {
   color: var(--mm-c-link);
 }
+
+.cmt-taskmarker {
+  color: var(--syntax-builtin);
+  font-family: var(--mm-f-code);
+}
+
 .cmt-labelName {
   font-family: var(--mm-f-code);
 }

@@ -1,6 +1,6 @@
 import { EditorView } from '@codemirror/view'
-import { syntaxHighlighting } from "@codemirror/language"
-import { tagHighlighter, tags as t } from "@lezer/highlight"
+import { syntaxHighlighting, HighlightStyle } from "@codemirror/language"
+import { tags as t } from "@lezer/highlight"
 import { tags as t2 } from "./markdown"
 
 const themeStyle = EditorView.baseTheme({
@@ -13,7 +13,7 @@ const themeStyle = EditorView.baseTheme({
   },
 })
 
-const classHighlighter = tagHighlighter([
+const classHighlightStyle = HighlightStyle.define([
   { tag: t.link, class: "cmt-link" },
   { tag: t.emphasis, class: "cmt-emphasis" },
   { tag: t.strong, class: "cmt-strong" },
@@ -53,11 +53,12 @@ const classHighlighter = tagHighlighter([
   { tag: t.heading6, class: "cmt-h6" },
   { tag: t.monospace, class: "cmt-code" },
   { tag: t2.codeinfo, class: "cmt-codeinfo" },
+  { tag: t2.taskmarker, class: "cmt-taskmarker" },
   { tag: t2.hardbreak, class: "cmt-hardbreak" },
 ])
 
 
 export const styles = [
   themeStyle,
-  syntaxHighlighting(classHighlighter, {fallback: true}),
+  syntaxHighlighting(classHighlightStyle, {fallback: true}),
 ]

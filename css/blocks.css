@@ -16,26 +16,14 @@
 }
 
 .cm-editor .cmb-quote {
-  color: var(--mm-c-block-text);
-  background-color: var(--mm-c-block-background);
-  padding-left: var(--mm-s-block-padding);
+  color: var(--mm-c-quote-text);
+  background-color: var(--mm-c-quote-background);
+  border-left: 4px solid var(--mm-c-quote-border);
   padding-right: var(--mm-s-block-padding);
 }
 
 .cm-editor .cmb-quote-open {
-  position: relative;
   padding-top: var(--mm-s-block-padding);
-}
-
-.cm-editor .cmb-quote-open:after {
-  position: absolute;
-  content: "\201d";
-  font-size: 2em;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  line-height: 1em;
-  top: 2px;
-  right: 2px;
-  color: var(--mm-c-quote-mark);
 }
 
 .cm-editor .cmb-quote-close {

@@ -9,6 +9,7 @@ import { Tag, styleTags } from "@lezer/highlight"
 export const tags = {
   codeinfo: Tag.define(),
   hardbreak: Tag.define(),
+  taskmarker: Tag.define(),
 }
 
 
@@ -17,6 +18,7 @@ export const markdownHighlight = {
     styleTags({
       "CodeInfo": tags.codeinfo,
       "HardBreak": tags.hardbreak,
+      "TaskMarker": tags.taskmarker,
     })
   ],
 }

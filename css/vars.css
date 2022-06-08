@@ -11,9 +11,11 @@
 
   --mm-s-block-padding: 0.5rem;
   --mm-c-block-text: #24292f;
-  --mm-c-block-background: #f0f0f0;
+  --mm-c-block-background: #f9f9f9;
 
-  --mm-c-quote-mark: #d4d4d4;
+  --mm-c-quote-text: #24292f;
+  --mm-c-quote-background: #f9f9f9;
+  --mm-c-quote-border: #ddd;
 
   --mm-s-code-padding: var(--mm-s-block-padding);
   --mm-s-code-radius: 6px;

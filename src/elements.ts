@@ -1,19 +1,19 @@
 import { Decoration, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
 import { RangeSet, RangeSetBuilder } from '@codemirror/state'
 import { syntaxTree } from "@codemirror/language"
-import { SyntaxNodeRef } from "@lezer/common"
+import { SyntaxNode } from "@lezer/common"
 
-const _cacheDecorations: { [key: string]: Decoration } = {}
+const _lineDecorations: { [key: string]: Decoration } = {}
 
 function getLineDecoration (name: string, attrs = {}) {
-  let deco = _cacheDecorations[name]
+  let deco = _lineDecorations[name]
   if (!deco) {
     let className = name
     if (/-(open|close)$/.test(name)) {
       className = name.replace(/-(open|close)$/, ' ') + name
     }
     deco = Decoration.line({ attributes: { class: className, ...attrs } })
-    _cacheDecorations[name] = deco
+    _lineDecorations[name] = deco
   }
   return deco
 }
@@ -21,7 +21,7 @@ function getLineDecoration (name: string, attrs = {}) {
 function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
   const builder = new RangeSetBuilder<Decoration>()
 
-  const addRangeSet = (node: SyntaxNodeRef, className: string, attrs = {}) => {
+  const addRangeSet = (node: SyntaxNode, className: string, attrs = {}) => {
     let line = view.state.doc.lineAt(node.from)
     const endLine = view.state.doc.lineAt(node.to)
     builder.add(line.from, line.from, getLineDecoration(className + '-open', attrs))
@@ -35,7 +35,7 @@ function buildBlockDecoration(view: EditorView): RangeSet<Decoration> {
   for (let {from, to} of view.visibleRanges) {
     syntaxTree(view.state).iterate({
       from, to,
-      enter: (node) => {
+      enter: ({ node }) => {
         if (node.name === "Document") {
           return true
         }
