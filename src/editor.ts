@@ -1,27 +1,16 @@
-import { EditorView, keymap } from "@codemirror/view"
+import { EditorView } from "@codemirror/view"
 import { EditorState, Extension } from "@codemirror/state"
-import { Language, LanguageDescription } from "@codemirror/language"
-import { history } from "@codemirror/commands"
 import { markdown } from '@codemirror/lang-markdown'
-import { historyKeymap } from "@codemirror/commands"
 import { MarkdownExtension } from "@lezer/markdown"
 import { markdownLanguage, codeLanguages, markdownHighlight } from "./markdown"
 import { blockElements } from './elements'
-import { markdownKeymap } from "./commands"
 import { styles } from './styles'
+import { MarkMirrorOptions } from "./types"
 
-interface MarkMirrorOptions {
-  extensions?: Extension[],
-  addKeymap?: boolean,
-  mdBase?: Language,
-  mdExtensions?: MarkdownExtension,
-  codeLanguages?: readonly LanguageDescription[],
-}
-
-export const localHistory = [ history(), keymap.of(historyKeymap) ]
 
 export class MarkMirror {
   public view?: EditorView
+  private _extensions: Extension[] = []
 
   constructor (public options: MarkMirrorOptions = {}) {}
 
@@ -34,14 +23,12 @@ export class MarkMirror {
   }
 
   // default extensions
-  get extensions () {
+  private get defaultExtensions () {
     const mdExtensions: MarkdownExtension[] = [ markdownHighlight ]
     if (this.options.mdExtensions) {
       mdExtensions.push(this.options.mdExtensions)
     }
     return [
-      EditorView.lineWrapping,
-      EditorView.contentAttributes.of({ spellcheck: 'true' }),
       markdown({
         base: this.options.mdBase || markdownLanguage,
         extensions: mdExtensions,
@@ -52,11 +39,16 @@ export class MarkMirror {
     ]
   }
 
-  addExtension (extension: Extension) {
-    if (!this.options.extensions) {
-      this.options.extensions = []
+  get extensions () {
+    const extensions = [...this.defaultExtensions, ...this._extensions]
+    if (this.options.extensions) {
+      extensions.push(this.options.extensions)
     }
-    this.options.extensions.push(extension)
+    return extensions
+  }
+
+  addExtension (extension: Extension) {
+    this._extensions.push(extension)
   }
 
   createState (doc: string, extensions?: Extension[]) {
@@ -64,12 +56,6 @@ export class MarkMirror {
       extensions = this.extensions
     } else {
       extensions = [ ...this.extensions, ...extensions ]
-    }
-    if (this.options.addKeymap !== false) {
-      extensions.push(markdownKeymap)
-    }
-    if (this.options.extensions) {
-      extensions.push(this.options.extensions)
     }
     return EditorState.create({ doc, extensions })
   }

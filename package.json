@@ -1,6 +1,6 @@
 {
   "name": "@markmirror/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The fundamentals of the MarkMirror Markdown editor",
   "author": {
     "name": "Hsiaoming Yang",
@@ -17,18 +17,19 @@
   ],
   "type": "module",
   "module": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": false,
   "license": "MIT",
   "dependencies": {
-    "@codemirror/commands": "^0.20.0",
-    "@codemirror/lang-css": "^0.20.0",
-    "@codemirror/lang-html": "^0.20.0",
-    "@codemirror/lang-javascript": "^0.20.0",
-    "@codemirror/lang-markdown": "^0.20.0",
-    "@codemirror/language": "^0.20.0",
-    "@codemirror/state": "^0.20.0",
-    "@codemirror/view": "^0.20.0",
-    "@lezer/common": "^0.16.0",
-    "@lezer/highlight": "^0.16.0",
-    "@lezer/markdown": "^0.16.0"
+    "@codemirror/lang-css": "^6.0.0",
+    "@codemirror/lang-html": "^6.0.0",
+    "@codemirror/lang-javascript": "^6.0.0",
+    "@codemirror/lang-markdown": "^6.0.0",
+    "@codemirror/language": "^6.0.0",
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
+    "@lezer/common": "^1.0.0",
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/markdown": "^1.0.0"
   }
 }
