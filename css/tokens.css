@@ -43,8 +43,16 @@
   font-style: italic;
 }
 
+.cmt-strikethrough {
+  opacity: 0.5;
+}
+
 .cmt-link {
   color: var(--mm-c-link);
+}
+
+.cmt-url {
+  color: var(--mm-c-url);
 }
 
 .cmt-taskmarker {
@@ -64,6 +72,14 @@
   padding-right: 2px;
   border-radius: 4px;
 }
+
+.cmb-code > .cmt-code {
+  font-weight: normal;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
 .cmt-codeinfo {
   color: var(--syntax-meta);
 }
