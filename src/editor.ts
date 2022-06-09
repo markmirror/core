@@ -77,10 +77,12 @@ export class MarkMirror {
     this.view = new EditorView({ state, parent })
   }
 
+  focuse () {
+    this.view?.focus()
+  }
+
   destroy () {
-    if (this.view) {
-      this.view.destroy()
-    }
+    this.view?.destroy()
   }
 }
 
