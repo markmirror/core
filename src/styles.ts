@@ -3,7 +3,7 @@ import { syntaxHighlighting, HighlightStyle } from "@codemirror/language"
 import { tags as t } from "@lezer/highlight"
 import { tags as t2 } from "./markdown"
 
-const themeStyle = EditorView.baseTheme({
+const themeStyle = EditorView.theme({
   "&.cm-editor.cm-focused": {
     outline: "none",
   },
