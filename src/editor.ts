@@ -22,19 +22,23 @@ export class MarkMirror {
     }
   }
 
-  // default extensions
-  private get defaultExtensions () {
+  private get markdownExtension () {
     const mdExtensions: MarkdownExtension[] = [ markdownHighlight ]
     if (this.options.mdExtensions) {
       mdExtensions.push(this.options.mdExtensions)
     }
+    return markdown({
+      base: this.options.mdBase || markdownLanguage,
+      extensions: mdExtensions,
+      codeLanguages: this.options.codeLanguages || codeLanguages,
+    })
+  }
+
+  // default extensions
+  private get defaultExtensions () {
     return [
       EditorView.lineWrapping,
-      markdown({
-        base: this.options.mdBase || markdownLanguage,
-        extensions: mdExtensions,
-        codeLanguages: this.options.codeLanguages || codeLanguages,
-      }),
+      this.markdownExtension,
       blockElements,
       styles,
     ]
@@ -77,7 +81,7 @@ export class MarkMirror {
     this.view = new EditorView({ state, parent })
   }
 
-  focuse () {
+  focus () {
     this.view?.focus()
   }
 
