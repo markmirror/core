@@ -15,6 +15,8 @@ export class MarkMirror {
 
   private _handlers: {[event: string]: EventHandler[]} = {}
   private _extensions: Extension[] = []
+  // TODO: find a better way to attach methods on instance
+  private _methods: {[name: string]: (data: any) => any } = {}
 
   constructor (public options: MarkMirrorOptions = {}) {}
 
@@ -83,7 +85,22 @@ export class MarkMirror {
     this._extensions.push(plugin(this))
   }
 
-  createState (doc: string) {
+  registerMethod (name: string, fn: (data: any) => any) {
+    if (this._methods[name]) {
+      throw new Error('Method: `' + name + '` has been registered.')
+    } else {
+      this._methods[name] = fn
+    }
+  }
+
+  runMethod (name: string, data: any) {
+    const fn = this._methods[name]
+    if (fn) {
+      return fn(data)
+    }
+  }
+
+  private createState (doc: string) {
     let extensions = [...this.defaultExtensions, ...this._extensions]
     if (this.options.extensions) {
       extensions = [...extensions, ...this.options.extensions]
