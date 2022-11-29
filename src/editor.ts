@@ -7,9 +7,13 @@ import { blockElements } from './elements'
 import { styles } from './styles'
 import { MarkMirrorOptions } from "./types"
 
+export type EventHandler = (data: any, editor: MarkMirror) => void
 
 export class MarkMirror {
   public view?: EditorView
+  public element?: Element
+
+  private _handlers: {[event: string]: EventHandler[]} = {}
   private _extensions: Extension[] = []
 
   constructor (public options: MarkMirrorOptions = {}) {}
@@ -36,7 +40,13 @@ export class MarkMirror {
 
   // default extensions
   private get defaultExtensions () {
+    const onDocChange = EditorView.updateListener.of((update: ViewUpdate) => {
+      if (update.docChanged) {
+        this.trigger('docChanged', update.state.doc.toString())
+      }
+    })
     return [
+      onDocChange,
       EditorView.lineWrapping,
       this.markdownExtension,
       blockElements,
@@ -44,28 +54,44 @@ export class MarkMirror {
     ]
   }
 
-  get extensions () {
-    const extensions = [...this.defaultExtensions, ...this._extensions]
-    if (this.options.extensions) {
-      extensions.push(this.options.extensions)
+  on (event: string, handler: EventHandler) {
+    if (!this._handlers[event]) {
+      this._handlers[event] = []
     }
-    return extensions
+    this._handlers[event].push(handler)
+  }
+
+  off (event: string, handler: EventHandler) {
+    const handlers = this._handlers[event]
+    if (handlers) {
+      this._handlers[event] = handlers.filter(h => h !== handler)
+    }
+  }
+
+  trigger (event: string, data: any) {
+    const handlers = this._handlers[event]
+    if (handlers) {
+      handlers.forEach(h => h(data, this))
+    }
   }
 
   addExtension (extension: Extension) {
     this._extensions.push(extension)
   }
 
-  createState (doc: string, extensions?: Extension[]) {
-    if (!extensions) {
-      extensions = this.extensions
-    } else {
-      extensions = [ ...this.extensions, ...extensions ]
+  use (plugin: (ctx: MarkMirror) => Extension) {
+    this._extensions.push(plugin(this))
+  }
+
+  createState (doc: string) {
+    let extensions = [...this.defaultExtensions, ...this._extensions]
+    if (this.options.extensions) {
+      extensions = [...extensions, ...this.options.extensions]
     }
     return EditorState.create({ doc, extensions })
   }
 
-  render (element: HTMLElement, options: { extensions?: Extension[], content?: string } = {}) {
+  render (element: HTMLElement, options: { content?: string } = {}) {
     let doc = options.content || '', parent = element
     if (!options.content && element instanceof HTMLTextAreaElement) {
       doc = element.value
@@ -77,7 +103,8 @@ export class MarkMirror {
       element.parentNode?.replaceChild(parent, element)
     }
     parent.classList.add('markmirror')
-    const state = this.createState(doc, options.extensions)
+    this.element = parent
+    const state = this.createState(doc)
     this.view = new EditorView({ state, parent })
   }
 
@@ -88,12 +115,4 @@ export class MarkMirror {
   destroy () {
     this.view?.destroy()
   }
-}
-
-export function onDocChange (cb: (content: string) => void) {
-  return EditorView.updateListener.of((update: ViewUpdate) => {
-    if (update.docChanged) {
-      cb(update.state.doc.toString())
-    }
-  })
 }

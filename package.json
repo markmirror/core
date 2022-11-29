@@ -1,6 +1,6 @@
 {
   "name": "@markmirror/core",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "The fundamentals of the MarkMirror Markdown editor",
   "author": {
     "name": "Hsiaoming Yang",
@@ -17,6 +17,7 @@
   ],
   "type": "module",
   "module": "index.js",
+  "types": "index.d.ts",
   "sideEffects": false,
   "license": "MIT",
   "dependencies": {
