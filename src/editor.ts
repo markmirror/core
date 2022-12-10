@@ -1,13 +1,15 @@
 import { EditorView, ViewUpdate } from "@codemirror/view"
 import { EditorState, Extension } from "@codemirror/state"
-import { markdown } from '@codemirror/lang-markdown'
-import { MarkdownExtension } from "@lezer/markdown"
-import { markdownLanguage, codeLanguages, markdownHighlight } from "./markdown"
-import { blockElements } from './elements'
+export { EditorState, RangeSet, RangeSetBuilder } from "@codemirror/state"
+
+import { blockElements } from './blocks'
 import { styles } from './styles'
-import { MarkMirrorOptions } from "./types"
 
 export type EventHandler = (data: any, editor: MarkMirror) => void
+
+export interface MarkMirrorOptions {
+  extensions?: Extension[],
+}
 
 export class MarkMirror {
   public view?: EditorView
@@ -15,8 +17,6 @@ export class MarkMirror {
 
   private _handlers: {[event: string]: EventHandler[]} = {}
   private _extensions: Extension[] = []
-  // TODO: find a better way to attach methods on instance
-  private _methods: {[name: string]: (data: any) => any } = {}
 
   constructor (public options: MarkMirrorOptions = {}) {}
 
@@ -26,18 +26,6 @@ export class MarkMirror {
     } else {
       return null
     }
-  }
-
-  private get markdownExtension () {
-    const mdExtensions: MarkdownExtension[] = [ markdownHighlight ]
-    if (this.options.mdExtensions) {
-      mdExtensions.push(this.options.mdExtensions)
-    }
-    return markdown({
-      base: this.options.mdBase || markdownLanguage,
-      extensions: mdExtensions,
-      codeLanguages: this.options.codeLanguages || codeLanguages,
-    })
   }
 
   // default extensions
@@ -50,7 +38,6 @@ export class MarkMirror {
     return [
       onDocChange,
       EditorView.lineWrapping,
-      this.markdownExtension,
       blockElements,
       styles,
     ]
@@ -83,21 +70,6 @@ export class MarkMirror {
 
   use (plugin: (ctx: MarkMirror) => Extension) {
     this._extensions.push(plugin(this))
-  }
-
-  registerMethod (name: string, fn: (data: any) => any) {
-    if (this._methods[name]) {
-      throw new Error('Method: `' + name + '` has been registered.')
-    } else {
-      this._methods[name] = fn
-    }
-  }
-
-  runMethod (name: string, data: any) {
-    const fn = this._methods[name]
-    if (fn) {
-      return fn(data)
-    }
   }
 
   private createState (doc: string) {

@@ -1,7 +1,6 @@
 import { EditorView } from '@codemirror/view'
 import { syntaxHighlighting, HighlightStyle } from "@codemirror/language"
 import { tags as t } from "@lezer/highlight"
-import { tags as t2 } from "./markdown"
 
 const themeStyle = EditorView.theme({
   "&.cm-editor.cm-focused": {
@@ -52,9 +51,6 @@ const classHighlightStyle = HighlightStyle.define([
   { tag: t.heading5, class: "cmt-h5" },
   { tag: t.heading6, class: "cmt-h6" },
   { tag: t.monospace, class: "cmt-code" },
-  { tag: t2.codeinfo, class: "cmt-codeinfo" },
-  { tag: t2.taskmarker, class: "cmt-taskmarker" },
-  { tag: t2.hardbreak, class: "cmt-hardbreak" },
 ])
 
 
