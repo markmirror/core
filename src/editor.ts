@@ -80,9 +80,9 @@ export class MarkMirror {
     return EditorState.create({ doc, extensions })
   }
 
-  render (element: HTMLElement, options: { content?: string } = {}) {
-    let doc = options.content || '', parent = element
-    if (!options.content && element instanceof HTMLTextAreaElement) {
+  render (element: HTMLElement, content: string = '') {
+    let doc = content, parent = element
+    if (!content && element instanceof HTMLTextAreaElement) {
       doc = element.value
     }
     if (element instanceof HTMLTextAreaElement) {
