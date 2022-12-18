@@ -6,7 +6,7 @@ import { blockElements } from './blocks'
 import { styles } from './styles'
 
 export type EventHandler = (data: any, editor: MarkMirror) => void
-
+export type InvokeHandler = (...args: any[]) => any
 export interface MarkMirrorOptions {
   extensions?: Extension[],
 }
@@ -15,7 +15,8 @@ export class MarkMirror {
   public view?: EditorView
   public element?: Element
 
-  private _handlers: {[event: string]: EventHandler[]} = {}
+  private _eventHandlers: {[event: string]: EventHandler[]} = {}
+  private _invokeHandlers: {[method: string]: InvokeHandler} = {}
   private _extensions: Extension[] = []
 
   constructor (public options: MarkMirrorOptions = {}) {}
@@ -32,7 +33,7 @@ export class MarkMirror {
   private get defaultExtensions () {
     const onDocChange = EditorView.updateListener.of((update: ViewUpdate) => {
       if (update.docChanged) {
-        this.trigger('docChanged', update.state.doc.toString())
+        this.triggerEvent('docChanged', update.state.doc.toString())
       }
     })
     return [
@@ -43,29 +44,40 @@ export class MarkMirror {
     ]
   }
 
-  on (event: string, handler: EventHandler) {
-    if (!this._handlers[event]) {
-      this._handlers[event] = []
+  addEventHandler (event: string, handler: EventHandler) {
+    if (!this._eventHandlers[event]) {
+      this._eventHandlers[event] = []
     }
-    this._handlers[event].push(handler)
+    this._eventHandlers[event].push(handler)
   }
 
-  off (event: string, handler: EventHandler) {
-    const handlers = this._handlers[event]
+  removeEventHandler (event: string, handler: EventHandler) {
+    const handlers = this._eventHandlers[event]
     if (handlers) {
-      this._handlers[event] = handlers.filter(h => h !== handler)
+      this._eventHandlers[event] = handlers.filter(h => h !== handler)
     }
   }
 
-  trigger (event: string, data: any) {
-    const handlers = this._handlers[event]
+  triggerEvent (event: string, data: any) {
+    const handlers = this._eventHandlers[event]
     if (handlers) {
       handlers.forEach(h => h(data, this))
     }
   }
 
-  addExtension (extension: Extension) {
-    this._extensions.push(extension)
+  invoke (method: string, ...args: any[]) {
+    const func = this._invokeHandlers[method]
+    if (func) {
+      return func(...args)
+    }
+  }
+
+  registerInvokeHandler (method: string, handler: InvokeHandler) {
+    if (this._invokeHandlers[method]) {
+      throw new Error('Invoke handler exists')
+    } else {
+      this._invokeHandlers[method] = handler
+    }
   }
 
   use (plugin: (ctx: MarkMirror) => Extension) {
