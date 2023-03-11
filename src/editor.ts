@@ -29,6 +29,12 @@ export class MarkMirror {
     }
   }
 
+  setDoc (text: string) {
+    this.view?.dispatch({
+      changes: [{ from: 0, to: this.state?.doc.length, insert: text }],
+    })
+  }
+
   // default extensions
   private get defaultExtensions () {
     const onDocChange = EditorView.updateListener.of((update: ViewUpdate) => {
